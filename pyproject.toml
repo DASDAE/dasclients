@@ -1,0 +1,128 @@
+
+# --- Build system configuration
+
+[build-system]
+requires = [ "setuptools>=41", "setuptools-scm", ]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]  # this empty section enables the tool
+
+
+
+
+# --- Project Metadata
+
+[project]
+name = "dasclients"
+dynamic = ["version"]  # version is fetched by setuptools-git-versioning
+
+authors = [
+  { name="DASDAE org", email="dasdae@dasdae.org" },
+]
+
+description = "Extended Client/IO support for DASCore"
+readme = "readme.md"
+license = { file="docs/LICENSE" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+]
+
+keywords = ["geophysics", "distributed-acoustic-sensing"]
+
+# --- Dependencies
+
+dependencies = [
+     "tiledb",
+     "dascore",
+]
+
+[project.optional-dependencies]
+
+test = [
+    "coverage",
+    "coveralls",
+    "pre-commit",
+    "pytest",
+    "pytest-codeblocks",
+    "pytest-cov",
+    "twine",
+]
+
+all = ["dascore[extras]"]
+
+dev = ["dascore[test]"]
+
+# --- URLs for project
+
+[project.urls]
+"Bug Tracker" = "https://github.com/DASDAE/dasclients/issues"
+"Documentation" = "https://github.com/DASDAE/dasclients"
+"Homepage" = "https://github.com/DASDAE"
+
+# --- Entry Points
+
+# --- External tool configuration
+
+[tool.ruff]
+
+# enable certain types of linting
+select = ["E", "F", "UP", "RUF"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "__init__.py"
+]
+
+# lowest python version supported
+target-version = "py310"
+
+fixable = ["ALL"]
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+# config for docstring parsing
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    # Ignore hdf5 warnings from pytables, See pytables #1035
+    'ignore::Warning:tables:'
+]
